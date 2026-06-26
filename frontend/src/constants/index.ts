@@ -1,4 +1,6 @@
-export const TASK_ITEM_TEMPDATA = [
+import type { Task } from '../types';
+
+export const TASK_ITEM_TEMPDATA: Task[] = [
   {
     id: 1,
     title: 'Finish React Components',

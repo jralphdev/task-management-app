@@ -13,7 +13,7 @@ const Statistics = () => {
 
       <div className='stat-card'>
         <h2 className='stat-title'>Inactive</h2>
-        <p className='stat-value text-red-400'>5</p>
+        <p className='stat-value text-yellow-400'>5</p>
       </div>
     </section>
   );

@@ -2,7 +2,7 @@ import { PlusIcon } from 'lucide-react';
 import SearchInput from './components/SearchInput';
 import FilterButton from './components/FilterButton';
 import Statistics from './components/Statistics';
-import TaskItem from './components/TaskItem';
+import TaskList from './components/TaskList';
 
 const App = () => {
   return (
@@ -32,8 +32,8 @@ const App = () => {
           <FilterButton />
         </section>
 
-        {/* TASK ITEMS SECTION */}
-        <TaskItem />
+        {/* TASK LIST SECTION */}
+        <TaskList />
       </div>
     </main>
   );

@@ -6,3 +6,9 @@ export interface Task {
   description: string;
   status: TaskStatus;
 }
+
+export interface TaskItemProps {
+  task: Task;
+  isEditing: boolean;
+  onEdit: () => void;
+}

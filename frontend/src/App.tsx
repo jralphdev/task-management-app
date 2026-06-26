@@ -3,8 +3,11 @@ import SearchInput from './components/SearchInput';
 import FilterButton from './components/FilterButton';
 import Statistics from './components/Statistics';
 import TaskList from './components/TaskList';
+import AddTaskModal from './components/AddTaskModal';
 
 const App = () => {
+  const isAddTaskOpen = false;
+
   return (
     <main className='home'>
       <div className='home-container'>
@@ -35,6 +38,8 @@ const App = () => {
         {/* TASK LIST SECTION */}
         <TaskList />
       </div>
+
+      {isAddTaskOpen && <AddTaskModal />}
     </main>
   );
 };

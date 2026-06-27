@@ -1,6 +1,6 @@
 import { pgTable, serial, text, timestamp, varchar } from 'drizzle-orm/pg-core';
 
-export type TaskStatus = 'completed' | 'incomplete';
+type TaskStatus = 'completed' | 'incomplete';
 
 export const tasks = pgTable('tasks', {
   id: serial('id').primaryKey(),

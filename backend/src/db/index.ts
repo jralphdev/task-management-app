@@ -9,10 +9,6 @@ if (!ENV.DATABASE_URL) {
 
 export const pool = new Pool({ connectionString: ENV.DATABASE_URL });
 
-pool.on('connect', () => {
-  console.log('Connected to database');
-});
-
 pool.on('error', (err) => {
   console.error('Error connecting to database', err);
 });

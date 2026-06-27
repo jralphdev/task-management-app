@@ -1,8 +1,8 @@
 {
-  "name": "backend",
+  "name": "task-management-backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Task Management App Backend with Drizzle ORM and PostgreSQL",
+  "main": "dist/index.js",
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "tsc",

@@ -23,6 +23,15 @@ app.get('/', (_: Request, res: Response) => {
   });
 });
 
+// routes
 app.use('/api/tasks', taskRoutes);
 
-app.listen(PORT, () => console.log(`Server is running on http://localhost:${PORT}`));
+// for local dev
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+  });
+}
+
+// for vercel deploy
+export default app;

@@ -1,5 +1,11 @@
 @import 'tailwindcss';
 
+@layer base {
+  html {
+    @apply scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-900;
+  }
+}
+
 @layer components {
   .home {
     @apply min-h-screen bg-gray-950 overflow-hidden relative py-10;
@@ -62,12 +68,16 @@
 
           .filter-btn {
             @apply py-2.5 px-5 border border-gray-800 bg-gray-900/50 text-white rounded-lg font-medium hover:bg-gray-900 transition duration-300 tracking-wider cursor-pointer;
+
+            &.active {
+              @apply bg-blue-600/20 border-blue-500;
+            }
           }
         }
       }
 
       .task-container {
-        @apply flex flex-col gap-6;
+        @apply flex flex-col gap-6 overflow-y-auto max-h-[68vh] px-0.5 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-900/40 shadow-2xl;
 
         .task-card {
           @apply border border-gray-700 bg-gray-900/70 px-5 py-7 rounded-lg shadow-lg;
@@ -75,11 +85,19 @@
           .task-wrapper {
             @apply flex items-center justify-between gap-4;
 
+            &.completed {
+              @apply opacity-50;
+            }
+
             .item-left {
               @apply flex items-center gap-4;
 
               .check-btn {
-                @apply flex items-center justify-center size-6 border border-gray-500 rounded-full text-white cursor-pointer;
+                @apply flex items-center justify-center size-6 border-2 border-gray-500 rounded-full text-white cursor-pointer;
+
+                &.checked {
+                  @apply bg-green-500 border-green-500;
+                }
               }
 
               .task-info {
@@ -136,7 +154,15 @@
               @apply flex items-center justify-center gap-4 mt-4;
 
               .add-btn {
-                @apply flex-1 py-2.5 px-5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium  tracking-wider cursor-pointer;
+                @apply flex-1 flex items-center justify-center py-2.5 px-5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium  tracking-wider cursor-pointer;
+
+                &:disabled {
+                  @apply opacity-50 cursor-not-allowed;
+                }
+
+                .loading-icon {
+                  @apply animate-spin duration-75 ease-in-out;
+                }
               }
 
               .cancel-btn {

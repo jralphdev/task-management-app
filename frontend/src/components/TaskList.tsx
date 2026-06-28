@@ -1,13 +1,25 @@
-import { useState } from 'react';
-import { TASK_ITEM_TEMPDATA } from '../constants';
+import { useShallow } from 'zustand/shallow';
+import { useTaskStore } from '../store/useTaskStore';
 import TaskItem from './TaskItem';
+import { useState } from 'react';
 
 const TaskList = () => {
   const [editId, setEditId] = useState<number | null>(null);
 
+  const { tasks, isLoading } = useTaskStore(
+    useShallow((state) => ({
+      tasks: state.tasks,
+      isLoading: state.isLoading,
+    })),
+  );
+
+  if (isLoading) {
+    return <p className='text-2xl text-white text-center'>Loading...</p>;
+  }
+
   return (
     <section className='task-container'>
-      {TASK_ITEM_TEMPDATA.map((task) => (
+      {tasks.map((task) => (
         <TaskItem
           key={task.id}
           task={task}

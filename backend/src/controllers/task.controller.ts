@@ -1,4 +1,4 @@
-import { and, eq, ilike, SQL } from 'drizzle-orm';
+import { and, desc, eq, ilike, SQL } from 'drizzle-orm';
 import { Request, Response } from 'express';
 import { tasks } from '../db/schema.js';
 import { db } from '../db/index.js';
@@ -27,7 +27,8 @@ export const getTasks = async (req: Request, res: Response) => {
     const taskList = await db
       .select()
       .from(tasks)
-      .where(filters.length ? and(...filters) : undefined);
+      .where(filters.length ? and(...filters) : undefined)
+      .orderBy(desc(tasks.status), desc(tasks.createdAt));
 
     return res.status(200).json(taskList);
   } catch (error) {

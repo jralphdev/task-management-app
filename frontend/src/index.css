@@ -242,5 +242,17 @@
         }
       }
     }
+
+    .no-tasks {
+      @apply flex items-center justify-center mt-10;
+
+      p {
+        @apply text-lg font-medium text-gray-500 tracking-wider;
+      }
+    }
+
+    .loader {
+      @apply flex items-center justify-center text-white mt-10;
+    }
   }
 }

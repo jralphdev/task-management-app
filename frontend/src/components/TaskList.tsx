@@ -26,9 +26,17 @@ const TaskList = () => {
 
   if (isLoading) {
     return (
-      <div className='flex items-center justify-center text-white pt-10'>
+      <div className='loader'>
         <LoaderCircleIcon className='size-10 animate-spin' />
       </div>
+    );
+  }
+
+  if (filteredTasks.length === 0) {
+    return (
+      <section className='no-tasks'>
+        <p>No tasks found.</p>
+      </section>
     );
   }
 

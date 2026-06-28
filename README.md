@@ -2,15 +2,15 @@
 
 A full-stack task management application where users can create, update, complete, and delete tasks. It also includes search, filtering, and task statistics to make organizing tasks easier.
 
-The project was built using React, Vite for the frontend and Express, Drizzle ORM, and PostgreSQL (Neon) for the backend.
+The project was built using React and Vite for the frontend, and Express, Drizzle ORM, and PostgreSQL (Neon) for the backend.
 
 ## Features
 
-- Create, edit, and delete
+- Create, edit, and delete task
 - Mark tasks as complete or incomplete
 - Search and filter tasks by status or title
 - View task statistics
-- Responsive task management UI
+- Responsive user interface
 
 ## Tech Stack
 

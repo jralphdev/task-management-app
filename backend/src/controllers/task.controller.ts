@@ -1,40 +1,23 @@
-import { and, desc, eq, ilike, SQL } from 'drizzle-orm';
+import { desc, eq } from 'drizzle-orm';
 import { Request, Response } from 'express';
 import { tasks } from '../db/schema.js';
 import { db } from '../db/index.js';
 import {
   createTaskSchema,
-  getTasksQuerySchema,
   taskIdSchema,
   updateTaskSchema,
 } from '../validation/task.validation.js';
 import { handleZodError } from '../utils/zodError.js';
 
-export const getTasks = async (req: Request, res: Response) => {
+export const getTasks = async (_: Request, res: Response) => {
   try {
-    const { search, status } = getTasksQuerySchema.parse(req.query);
-
-    const filters: SQL[] = [];
-
-    if (search) {
-      filters.push(ilike(tasks.title, `%${search}%`));
-    }
-
-    if (status) {
-      filters.push(eq(tasks.status, status));
-    }
-
     const taskList = await db
       .select()
       .from(tasks)
-      .where(filters.length ? and(...filters) : undefined)
       .orderBy(desc(tasks.status), desc(tasks.createdAt));
 
     return res.status(200).json(taskList);
   } catch (error) {
-    const zodError = handleZodError(error, res);
-    if (zodError) return zodError;
-
     return res.status(500).json({ error: 'Failed to fetch tasks' });
   }
 };

@@ -6,22 +6,15 @@ import TaskList from './components/TaskList';
 import AddTaskModal from './components/AddTaskModal';
 import { useTaskStore } from './store/useTaskStore';
 import { useEffect, useState } from 'react';
-import { useShallow } from 'zustand/shallow';
 
 const App = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { search, filter, getTasks } = useTaskStore(
-    useShallow((state) => ({
-      search: state.search,
-      filter: state.filter,
-      getTasks: state.getTasks,
-    })),
-  );
+  const getTasks = useTaskStore((state) => state.getTasks);
 
   useEffect(() => {
     getTasks();
-  }, [search, filter, getTasks]);
+  }, [getTasks]);
 
   return (
     <main className='home'>

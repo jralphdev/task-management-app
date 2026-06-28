@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import type { Task, TaskStatus, TaskStore } from '../types';
 import { axiosInstance } from '../lib/axios';
 
-export const useTaskStore = create<TaskStore>((set, get) => ({
+export const useTaskStore = create<TaskStore>((set) => ({
   tasks: [],
 
   search: '',
@@ -15,19 +15,7 @@ export const useTaskStore = create<TaskStore>((set, get) => ({
     set({ isLoading: true });
 
     try {
-      const { search, filter } = get();
-
-      let status: TaskStatus | undefined;
-
-      if (filter === 'active') status = 'incomplete';
-      if (filter === 'inactive') status = 'completed';
-
-      const { data } = await axiosInstance.get('/tasks', {
-        params: {
-          search: search || undefined,
-          status,
-        },
-      });
+      const { data } = await axiosInstance.get('/tasks');
 
       set({ tasks: data });
     } catch (error) {

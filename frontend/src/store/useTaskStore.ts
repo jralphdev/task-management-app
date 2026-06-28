@@ -95,16 +95,24 @@ export const useTaskStore = create<TaskStore>((set) => ({
   toggleTaskStatus: async (task: Task) => {
     const status: TaskStatus = task.status === 'completed' ? 'incomplete' : 'completed';
 
+    // instant update UI
+    set((state) => ({
+      tasks: state.tasks.map((existingTask) =>
+        existingTask.id === task.id ? { ...existingTask, status } : existingTask,
+      ),
+    }));
+
     try {
       await axiosInstance.put(`/tasks/${task.id}`, { status });
-
-      set((state) => ({
-        tasks: state.tasks.map((current) =>
-          current.id === task.id ? { ...current, status } : current,
-        ),
-      }));
     } catch (error) {
       console.error('Failed to fetch tasks:', error);
+
+      // rollback if fails
+      set((state) => ({
+        tasks: state.tasks.map((existingTask) =>
+          existingTask.id === task.id ? task : existingTask,
+        ),
+      }));
     }
   },
 }));

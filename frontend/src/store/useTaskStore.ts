@@ -8,8 +8,13 @@ export const useTaskStore = create<TaskStore>((set) => ({
   search: '',
   filter: 'all',
 
+  editTaskId: null,
+  deleteTaskId: null,
+
   isLoading: false,
   isCreating: false,
+  isUpdating: false,
+  isDeleting: false,
 
   getTasks: async () => {
     set({ isLoading: true });
@@ -37,6 +42,46 @@ export const useTaskStore = create<TaskStore>((set) => ({
     } finally {
       set({ isCreating: false });
     }
+  },
+
+  updateTask: async (id, task) => {
+    set({ isUpdating: true });
+
+    try {
+      const { data } = await axiosInstance.put(`/tasks/${id}`, task);
+
+      set((state) => ({
+        tasks: state.tasks.map((current) => (current.id === id ? data : current)),
+      }));
+    } catch (error) {
+      console.error('Failed to update task:', error);
+    } finally {
+      set({ isUpdating: false });
+    }
+  },
+
+  deleteTask: async (id) => {
+    set({ isDeleting: true });
+
+    try {
+      await axiosInstance.delete(`/tasks/${id}`);
+
+      set((state) => ({
+        tasks: state.tasks.filter((task) => task.id !== id),
+      }));
+    } catch (error) {
+      console.error('Failed to update task:', error);
+    } finally {
+      set({ isDeleting: false });
+    }
+  },
+
+  setEditTaskId: (id) => {
+    set({ editTaskId: id });
+  },
+
+  setDeleteTaskId: (id) => {
+    set({ deleteTaskId: id });
   },
 
   setSearch: (search) => {

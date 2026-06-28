@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import type { CreateTaskForm } from '../types';
+import type { TaskForm } from '../types';
 import { useTaskStore } from '../store/useTaskStore';
 import { useShallow } from 'zustand/shallow';
 import { LoaderCircleIcon } from 'lucide-react';
 
 const AddTaskModal = ({ onClose }: { onClose: () => void }) => {
-  const [form, setForm] = useState<CreateTaskForm>({
+  const [form, setForm] = useState<TaskForm>({
     title: '',
     description: '',
   });
@@ -31,12 +31,12 @@ const AddTaskModal = ({ onClose }: { onClose: () => void }) => {
   };
 
   // helper function for onChange
-  const handleChange = (field: keyof CreateTaskForm, value: string) => {
+  const handleChange = (field: keyof TaskForm, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
   };
 
   return (
-    <div className='modal'>
+    <div className='create-modal'>
       <div className='modal-wrapper'>
         <div className='modal-content'>
           <h2 className='modal-title'>Add New Task</h2>

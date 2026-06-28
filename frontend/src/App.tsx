@@ -6,11 +6,18 @@ import TaskList from './components/TaskList';
 import AddTaskModal from './components/AddTaskModal';
 import { useTaskStore } from './store/useTaskStore';
 import { useEffect, useState } from 'react';
+import DeleteModal from './components/DeleteModal';
+import { useShallow } from 'zustand/shallow';
 
 const App = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
 
-  const getTasks = useTaskStore((state) => state.getTasks);
+  const { getTasks, deleteTaskId } = useTaskStore(
+    useShallow((state) => ({
+      getTasks: state.getTasks,
+      deleteTaskId: state.deleteTaskId,
+    })),
+  );
 
   useEffect(() => {
     getTasks();
@@ -34,7 +41,7 @@ const App = () => {
           <div className='toolbar-top'>
             <SearchInput />
 
-            <button onClick={() => setIsModalOpen(true)} className='add-btn'>
+            <button onClick={() => setIsAddTaskModalOpen(true)} className='add-btn'>
               <PlusIcon className='size-4 mr-2' />
               Add New Task
             </button>
@@ -47,7 +54,9 @@ const App = () => {
         <TaskList />
       </div>
 
-      {isModalOpen && <AddTaskModal onClose={() => setIsModalOpen(false)} />}
+      {isAddTaskModalOpen && <AddTaskModal onClose={() => setIsAddTaskModalOpen(false)} />}
+
+      {deleteTaskId && <DeleteModal />}
     </main>
   );
 };

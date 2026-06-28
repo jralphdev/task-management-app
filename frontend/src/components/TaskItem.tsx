@@ -2,9 +2,19 @@ import { CheckIcon, Edit2Icon, Trash2Icon } from 'lucide-react';
 import type { TaskItemProps } from '../types';
 import EditTaskForm from './EditTaskForm';
 import { useTaskStore } from '../store/useTaskStore';
+import { useShallow } from 'zustand/shallow';
 
-const TaskItem = ({ task, isEditing, onEdit }: TaskItemProps) => {
-  const toggleTaskStatus = useTaskStore((state) => state.toggleTaskStatus);
+const TaskItem = ({ task }: TaskItemProps) => {
+  const { editTaskId, setEditTaskId, setDeleteTaskId, toggleTaskStatus } = useTaskStore(
+    useShallow((state) => ({
+      editTaskId: state.editTaskId,
+      setEditTaskId: state.setEditTaskId,
+      setDeleteTaskId: state.setDeleteTaskId,
+      toggleTaskStatus: state.toggleTaskStatus,
+    })),
+  );
+
+  const isEditing = editTaskId === task.id;
 
   return (
     <article className='task-card'>
@@ -29,16 +39,22 @@ const TaskItem = ({ task, isEditing, onEdit }: TaskItemProps) => {
           <div
             className={`action-btn ${task.status === 'completed' ? 'pointer-events-none' : ''}`}
           >
-            <button className='hover:text-blue-400 hover:bg-blue-500/10' onClick={onEdit}>
+            <button
+              className='hover:text-blue-400 hover:bg-blue-500/10'
+              onClick={() => setEditTaskId(task.id)}
+            >
               <Edit2Icon className='size-5' />
             </button>
-            <button className='hover:text-red-400 hover:bg-red-500/10'>
+            <button
+              onClick={() => setDeleteTaskId(task.id)}
+              className='hover:text-red-400 hover:bg-red-500/10'
+            >
               <Trash2Icon className='size-5' />
             </button>
           </div>
         </div>
       ) : (
-        <EditTaskForm />
+        <EditTaskForm task={task} />
       )}
     </article>
   );

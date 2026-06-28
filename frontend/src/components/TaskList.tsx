@@ -1,11 +1,9 @@
 import { useShallow } from 'zustand/shallow';
 import { useTaskStore } from '../store/useTaskStore';
 import TaskItem from './TaskItem';
-import { useState } from 'react';
+import { LoaderCircleIcon } from 'lucide-react';
 
 const TaskList = () => {
-  const [editId, setEditId] = useState<number | null>(null);
-
   const { tasks, search, filter, isLoading } = useTaskStore(
     useShallow((state) => ({
       tasks: state.tasks,
@@ -27,18 +25,17 @@ const TaskList = () => {
   });
 
   if (isLoading) {
-    return <p className='text-2xl text-white text-center'>Loading...</p>;
+    return (
+      <div className='flex items-center justify-center text-white pt-10'>
+        <LoaderCircleIcon className='size-10 animate-spin' />
+      </div>
+    );
   }
 
   return (
     <section className='task-container'>
       {filteredTasks.map((task) => (
-        <TaskItem
-          key={task.id}
-          task={task}
-          isEditing={editId === task.id}
-          onEdit={() => setEditId(task.id)}
-        />
+        <TaskItem key={task.id} task={task} />
       ))}
     </section>
   );

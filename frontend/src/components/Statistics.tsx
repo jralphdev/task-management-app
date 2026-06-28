@@ -21,7 +21,7 @@ const Statistics = () => {
 
       <div className='stat-card'>
         <h2 className='stat-title'>Inactive</h2>
-        <p className='stat-value text-yellow-400'>{inactive}</p>
+        <p className='stat-value text-gray-200'>{inactive}</p>
       </div>
     </section>
   );

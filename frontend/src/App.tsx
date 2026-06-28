@@ -4,9 +4,24 @@ import FilterButton from './components/FilterButton';
 import Statistics from './components/Statistics';
 import TaskList from './components/TaskList';
 import AddTaskModal from './components/AddTaskModal';
+import { useTaskStore } from './store/useTaskStore';
+import { useEffect, useState } from 'react';
+import { useShallow } from 'zustand/shallow';
 
 const App = () => {
-  const isAddTaskOpen = false;
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { search, filter, getTasks } = useTaskStore(
+    useShallow((state) => ({
+      search: state.search,
+      filter: state.filter,
+      getTasks: state.getTasks,
+    })),
+  );
+
+  useEffect(() => {
+    getTasks();
+  }, [search, filter, getTasks]);
 
   return (
     <main className='home'>
@@ -26,7 +41,7 @@ const App = () => {
           <div className='toolbar-top'>
             <SearchInput />
 
-            <button className='add-btn'>
+            <button onClick={() => setIsModalOpen(true)} className='add-btn'>
               <PlusIcon className='size-4 mr-2' />
               Add New Task
             </button>
@@ -39,7 +54,7 @@ const App = () => {
         <TaskList />
       </div>
 
-      {isAddTaskOpen && <AddTaskModal />}
+      {isModalOpen && <AddTaskModal onClose={() => setIsModalOpen(false)} />}
     </main>
   );
 };

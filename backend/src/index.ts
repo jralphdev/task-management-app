@@ -33,5 +33,5 @@ if (process.env.NODE_ENV !== 'production') {
   });
 }
 
-// for vercel deploy
+// for vercel
 export default app;

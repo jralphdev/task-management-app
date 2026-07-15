@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { Task, TaskStatus, TaskStore } from '../types';
+import type { Task, TaskStore } from '../types';
 import { axiosInstance } from '../lib/axios';
 
 export const useTaskStore = create<TaskStore>((set) => ({
@@ -93,7 +93,7 @@ export const useTaskStore = create<TaskStore>((set) => ({
   },
 
   toggleTaskStatus: async (task: Task) => {
-    const status: TaskStatus = task.status === 'completed' ? 'incomplete' : 'completed';
+    const status = task.status === 'completed' ? 'incomplete' : 'completed';
 
     // instant update UI
     set((state) => ({

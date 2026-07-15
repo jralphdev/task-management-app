@@ -7,7 +7,7 @@ import {
   taskIdSchema,
   updateTaskSchema,
 } from '../validation/task.validation.js';
-import { handleZodError } from '../utils/zodError.js';
+import { handleError } from '../utils/zodError.js';
 
 export const getTasks = async (_: Request, res: Response) => {
   try {
@@ -18,7 +18,7 @@ export const getTasks = async (_: Request, res: Response) => {
 
     return res.status(200).json(taskList);
   } catch (error) {
-    return res.status(500).json({ error: 'Failed to fetch tasks' });
+    return handleError(error, res, 'Failed to fetch tasks');
   }
 };
 
@@ -36,10 +36,7 @@ export const createTask = async (req: Request, res: Response) => {
 
     return res.status(201).json(newTask);
   } catch (error) {
-    const zodError = handleZodError(error, res);
-    if (zodError) return zodError;
-
-    return res.status(500).json({ error: 'Failed to create task' });
+    return handleError(error, res, 'Failed to create task');
   }
 };
 
@@ -56,10 +53,7 @@ export const updateTask = async (req: Request, res: Response) => {
 
     return res.status(200).json(updatedTask);
   } catch (error) {
-    const zodError = handleZodError(error, res);
-    if (zodError) return zodError;
-
-    return res.status(500).json({ error: 'Failed to update task' });
+    return handleError(error, res, 'Failed to update task');
   }
 };
 
@@ -77,11 +71,6 @@ export const deleteTask = async (req: Request, res: Response) => {
       message: 'Task deleted successfully',
     });
   } catch (error) {
-    const zodError = handleZodError(error, res);
-    if (zodError) return zodError;
-
-    return res.status(500).json({
-      error: 'Failed to delete task',
-    });
+    return handleError(error, res, 'Failed to delete task');
   }
 };

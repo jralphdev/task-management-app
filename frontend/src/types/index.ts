@@ -1,5 +1,5 @@
 export type TaskStatus = 'completed' | 'incomplete';
-export type TaskFilter = 'all' | 'active' | 'inactive';
+export type TaskFilter = 'all' | 'completed' | 'incomplete';
 
 export interface Filter {
   label: string;
@@ -28,21 +28,29 @@ export interface TaskForm {
   description?: string;
 }
 
+export interface Statistics {
+  total: number;
+  statuses: Record<TaskStatus, number>;
+}
+
 export interface TaskStore {
   tasks: Task[];
+  statistics: Statistics;
 
   search: string;
   filter: TaskFilter;
 
   editTaskId: number | null;
   deleteTaskId: number | null;
+  page: number;
+  totalPages: number;
 
   isLoading: boolean;
   isCreating: boolean;
   isUpdating: boolean;
   isDeleting: boolean;
 
-  getTasks: () => Promise<void>;
+  getTasks: (page: number) => Promise<void>;
   createTask: (task: TaskForm) => Promise<void>;
   updateTask: (id: number, task: TaskForm) => Promise<void>;
   deleteTask: (id: number) => Promise<void>;
@@ -51,6 +59,7 @@ export interface TaskStore {
   setDeleteTaskId: (id: number | null) => void;
   setSearch: (search: string) => void;
   setFilter: (filter: TaskFilter) => void;
+  setPage: (page: number) => void;
 
   toggleTaskStatus: (task: Task) => Promise<void>;
 }

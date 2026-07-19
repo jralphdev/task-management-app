@@ -5,23 +5,19 @@ import Statistics from './components/Statistics';
 import TaskList from './components/TaskList';
 import AddTaskModal from './components/AddTaskModal';
 import { useTaskStore } from './store/useTaskStore';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import DeleteModal from './components/DeleteModal';
 import { useShallow } from 'zustand/shallow';
+import PaginationSection from './components/PaginationSection';
 
 const App = () => {
   const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
 
-  const { getTasks, deleteTaskId } = useTaskStore(
+  const { deleteTaskId } = useTaskStore(
     useShallow((state) => ({
-      getTasks: state.getTasks,
       deleteTaskId: state.deleteTaskId,
     })),
   );
-
-  useEffect(() => {
-    getTasks();
-  }, [getTasks]);
 
   return (
     <main className='home'>
@@ -52,6 +48,9 @@ const App = () => {
 
         {/* TASK LIST SECTION */}
         <TaskList />
+
+        {/* PAGIANTION NUMBER */}
+        <PaginationSection />
       </div>
 
       {isAddTaskModalOpen && <AddTaskModal onClose={() => setIsAddTaskModalOpen(false)} />}

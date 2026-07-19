@@ -34,10 +34,10 @@ export const filters: Filter[] = [
   },
   {
     label: 'Active',
-    value: 'active',
+    value: 'incomplete',
   },
   {
     label: 'Inactive',
-    value: 'inactive',
+    value: 'completed',
   },
 ] as const;

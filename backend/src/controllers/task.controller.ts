@@ -1,22 +1,64 @@
-import { desc, eq } from 'drizzle-orm';
+import { and, count, desc, eq, ilike } from 'drizzle-orm';
 import { Request, Response } from 'express';
 import { tasks } from '../db/schema.js';
 import { db } from '../db/index.js';
 import {
   createTaskSchema,
   taskIdSchema,
+  taskQuerySchema,
   updateTaskSchema,
 } from '../validation/task.validation.js';
 import { handleError } from '../utils/zodError.js';
 
-export const getTasks = async (_: Request, res: Response) => {
+export const getTasks = async (req: Request, res: Response) => {
   try {
-    const taskList = await db
-      .select()
-      .from(tasks)
-      .orderBy(desc(tasks.status), desc(tasks.createdAt));
+    const { page, filter, search } = taskQuerySchema.parse(req.query);
+    const limit = 7;
 
-    return res.status(200).json(taskList);
+    const filters = [];
+
+    if (search) {
+      filters.push(ilike(tasks.title, `%${search}%`));
+    }
+
+    if (filter !== 'all') {
+      filters.push(eq(tasks.status, filter));
+    }
+
+    const query = filters.length ? and(...filters) : undefined;
+
+    const [taskList, [{ total }], statusCount] = await Promise.all([
+      // paginated tasks
+      db
+        .select()
+        .from(tasks)
+        .where(query)
+        .orderBy(desc(tasks.status), desc(tasks.createdAt))
+        .limit(limit)
+        .offset((page - 1) * limit),
+
+      // total tasks ( for pagination )
+      db.select({ total: count() }).from(tasks).where(query),
+
+      // status count ( for statistics )
+      db
+        .select({
+          status: tasks.status,
+          count: count(),
+        })
+        .from(tasks)
+        .groupBy(tasks.status),
+    ]);
+
+    return res.status(200).json({
+      tasks: taskList,
+      page,
+      totalPages: Math.ceil(total / limit),
+      statistics: {
+        total: statusCount.reduce((sum, { count }) => sum + count, 0),
+        statuses: Object.fromEntries(statusCount.map(({ status, count }) => [status, count])),
+      },
+    });
   } catch (error) {
     return handleError(error, res, 'Failed to fetch tasks');
   }

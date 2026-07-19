@@ -2,10 +2,13 @@ import { useShallow } from 'zustand/shallow';
 import { useTaskStore } from '../store/useTaskStore';
 import TaskItem from './TaskItem';
 import { LoaderCircleIcon } from 'lucide-react';
+import { useEffect } from 'react';
 
 const TaskList = () => {
-  const { tasks, search, filter, isLoading } = useTaskStore(
+  const { getTasks, page, tasks, search, filter, isLoading } = useTaskStore(
     useShallow((state) => ({
+      getTasks: state.getTasks,
+      page: state.page,
       tasks: state.tasks,
       search: state.search,
       filter: state.filter,
@@ -13,38 +16,26 @@ const TaskList = () => {
     })),
   );
 
-  const filteredTasks = tasks.filter((task) => {
-    const matchesSearch = task.title.toLowerCase().includes(search.toLowerCase());
+  // fetch tasks when page changes
+  useEffect(() => {
+    getTasks(page);
+  }, [page, search, filter, getTasks]);
 
-    const matchesFilter =
-      filter === 'all' ||
-      (filter === 'active' && task.status === 'incomplete') ||
-      (filter === 'inactive' && task.status === 'completed');
-
-    return matchesSearch && matchesFilter;
-  });
-
-  if (isLoading) {
-    return (
-      <div className='loader'>
-        <LoaderCircleIcon className='size-10 animate-spin' />
-      </div>
-    );
-  }
-
-  if (filteredTasks.length === 0) {
-    return (
-      <section className='no-tasks'>
-        <p>No tasks found.</p>
-      </section>
-    );
-  }
+  const initialLoading = tasks.length === 0 && isLoading;
 
   return (
     <section className='task-container'>
-      {filteredTasks.map((task) => (
-        <TaskItem key={task.id} task={task} />
-      ))}
+      {initialLoading ? (
+        <div className='loader'>
+          <LoaderCircleIcon />
+        </div>
+      ) : tasks.length === 0 ? (
+        <section className='no-tasks'>
+          <p>No tasks found.</p>
+        </section>
+      ) : (
+        tasks.map((task) => <TaskItem key={task.id} task={task} />)
+      )}
     </section>
   );
 };

@@ -11,7 +11,7 @@
     @apply min-h-screen bg-gray-950 overflow-hidden relative py-10;
 
     .home-container {
-      @apply max-w-4xl mx-auto max-lg:px-4;
+      @apply flex flex-col max-w-4xl mx-auto max-lg:px-4 mt-7;
 
       header {
         @apply flex flex-col items-center text-center justify-center;
@@ -26,7 +26,7 @@
       }
 
       .statistics {
-        @apply grid grid-cols-2 md:grid-cols-3 gap-4 py-10;
+        @apply grid grid-cols-2 md:grid-cols-3 gap-4 mt-15;
 
         .stat-card {
           @apply flex flex-col-reverse gap-1 items-center border border-gray-700 bg-gray-900/70 p-4 rounded-lg shadow-lg;
@@ -45,7 +45,7 @@
       }
 
       .toolbar {
-        @apply flex flex-col py-4;
+        @apply flex flex-col mt-15;
 
         .toolbar-top {
           @apply flex items-center justify-between gap-4;
@@ -77,7 +77,7 @@
       }
 
       .task-container {
-        @apply flex flex-col gap-6 overflow-y-auto max-h-[68vh] px-0.5 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-900/40 shadow-2xl;
+        @apply flex flex-col gap-6 overflow-y-auto h-[68vh] px-0.5 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-900/40 shadow-2xl;
 
         .task-card {
           @apply border border-gray-700 bg-gray-900/70 px-5 py-7 rounded-lg shadow-lg;
@@ -243,16 +243,46 @@
       }
     }
 
-    .no-tasks {
-      @apply flex items-center justify-center mt-10;
+    .no-tasks,
+    .loader {
+      @apply flex-1 flex items-center justify-center;
+
+      svg {
+        @apply size-6 animate-spin text-white;
+      }
 
       p {
         @apply text-lg font-medium text-gray-500 tracking-wider;
       }
     }
 
-    .loader {
-      @apply flex items-center justify-center text-white mt-10;
+    .pagination {
+      @apply flex items-center justify-center gap-3 max-sm:gap-2 mt-6;
+
+      span {
+        @apply flex items-end justify-end text-white self-end;
+
+        svg {
+          @apply max-sm:size-5;
+        }
+      }
+
+      button {
+        @apply py-2 px-4 border border-gray-800 bg-gray-900/50 text-white max-sm:text-sm rounded-lg font-medium hover:bg-gray-900 tracking-wider cursor-pointer;
+
+        &.active {
+          @apply bg-blue-600/20 border-blue-500;
+        }
+
+        &:first-child,
+        &:last-child {
+          @apply py-2.5 px-2;
+
+          &:disabled {
+            @apply opacity-50 pointer-events-none;
+          }
+        }
+      }
     }
   }
 }

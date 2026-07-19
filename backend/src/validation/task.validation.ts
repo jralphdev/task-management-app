@@ -4,6 +4,12 @@ export const taskIdSchema = z.object({
   id: z.coerce.number().int().positive(),
 });
 
+export const taskQuerySchema = z.object({
+  page: z.coerce.number().int().min(1).default(1),
+  search: z.string().trim().default(''),
+  filter: z.enum(['all', 'completed', 'incomplete']).default('all'),
+});
+
 export const createTaskSchema = z.object({
   title: z
     .string()

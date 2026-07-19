@@ -1,11 +1,11 @@
 import { useTaskStore } from '../store/useTaskStore';
 
 const Statistics = () => {
-  const tasks = useTaskStore((state) => state.tasks);
+  const statistics = useTaskStore((state) => state.statistics);
 
-  const total = tasks.length;
-  const active = tasks.filter((task) => task.status === 'incomplete').length;
-  const inactive = total - active;
+  const total = statistics.total;
+  const incomplete = statistics.statuses.incomplete ?? 0;
+  const completed = statistics.statuses.completed ?? 0;
 
   return (
     <section className='statistics'>
@@ -16,12 +16,12 @@ const Statistics = () => {
 
       <div className='stat-card'>
         <h2 className='stat-title'>Active</h2>
-        <p className='stat-value text-blue-400'>{active}</p>
+        <p className='stat-value text-blue-400'>{incomplete}</p>
       </div>
 
       <div className='stat-card'>
         <h2 className='stat-title'>Inactive</h2>
-        <p className='stat-value text-gray-200'>{inactive}</p>
+        <p className='stat-value text-gray-200'>{completed}</p>
       </div>
     </section>
   );

@@ -14,14 +14,14 @@
       @apply flex flex-col max-w-4xl mx-auto max-lg:px-4 mt-7;
 
       header {
-        @apply flex flex-col items-center text-center justify-center;
+        @apply flex flex-col gap-2 items-center text-center justify-center;
 
         .title {
-          @apply text-4xl font-bold text-white mb-2;
+          @apply max-sm:text-3xl text-5xl font-bold text-white mb-2;
         }
 
         .description {
-          @apply text-gray-400;
+          @apply text-gray-400 max-sm:text-sm text-lg tracking-wider px-1.5;
         }
       }
 
@@ -59,7 +59,15 @@
           }
 
           .add-btn {
-            @apply flex items-center justify-center px-4 py-2.5 bg-blue-600 text-white rounded-lg shadow-lg  hover:bg-blue-700 cursor-pointer;
+            @apply flex items-center justify-center px-4 py-2.5 max-sm:py-3 bg-blue-600 text-white rounded-lg shadow-lg  hover:bg-blue-700 cursor-pointer;
+
+            svg {
+              @apply size-5 mr-2 max-sm:mr-0;
+            }
+
+            span {
+              @apply max-sm:hidden;
+            }
           }
         }
 
@@ -67,7 +75,7 @@
           @apply flex items-center justify-center space-x-3 py-8;
 
           .filter-btn {
-            @apply py-2.5 px-5 border border-gray-800 bg-gray-900/50 text-white rounded-lg font-medium hover:bg-gray-900 transition duration-300 tracking-wider cursor-pointer;
+            @apply py-2.5 px-5 border border-gray-800 bg-gray-900/50 text-white rounded-lg font-medium max-sm:text-sm hover:bg-gray-900 transition duration-300 tracking-wider cursor-pointer;
 
             &.active {
               @apply bg-blue-600/20 border-blue-500;
@@ -77,10 +85,10 @@
       }
 
       .task-container {
-        @apply flex flex-col gap-6 overflow-y-auto h-[68vh] px-0.5 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-900/40 shadow-2xl;
+        @apply flex flex-col gap-6 overflow-y-auto h-[66vh] px-0.5 max-sm:px-0 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-900/40 max-sm:scrollbar-none shadow-2xl;
 
         .task-card {
-          @apply border border-gray-700 bg-gray-900/70 px-5 py-7 rounded-lg shadow-lg;
+          @apply border border-gray-700 bg-gray-900/70 px-5 py-7 max-sm:px-3 rounded-lg shadow-lg;
 
           .task-wrapper {
             @apply flex items-center justify-between gap-4;
@@ -93,7 +101,11 @@
               @apply flex items-center gap-4;
 
               .check-btn {
-                @apply flex items-center justify-center size-6 border-2 border-gray-500 rounded-full text-white cursor-pointer;
+                @apply flex shrink-0 items-center justify-center size-6 max-sm:size-5 border-2 border-gray-500 rounded-full text-white cursor-pointer;
+
+                svg {
+                  @apply size-5;
+                }
 
                 &.checked {
                   @apply bg-green-500 border-green-500;
@@ -104,17 +116,21 @@
                 @apply flex flex-col gap-2;
 
                 h3 {
-                  @apply text-lg font-semibold text-white tracking-wider;
+                  @apply text-lg max-sm:text-base font-semibold text-white tracking-wider line-clamp-1;
                 }
 
                 p {
-                  @apply text-gray-400;
+                  @apply text-gray-400 max-sm:text-xs line-clamp-1;
                 }
               }
             }
 
             .action-btn {
-              @apply flex items-center gap-1.5;
+              @apply flex items-center gap-1.5 max-sm:gap-0;
+
+              svg {
+                @apply size-5;
+              }
 
               button {
                 @apply p-2 text-gray-400 rounded-xl cursor-pointer;
@@ -129,13 +145,13 @@
       @apply fixed inset-0 bg-black/50 backdrop-blur-md flex items-center justify-center z-50;
 
       .modal-wrapper {
-        @apply w-full max-w-3xl px-8;
+        @apply w-full max-w-3xl px-8 max-sm:px-4;
 
         .modal-content {
-          @apply bg-gray-900 border border-gray-700 rounded-2xl p-8 shadow-2xl;
+          @apply bg-gray-900 border border-gray-700 rounded-2xl max-sm:rounded-xl p-8 max-sm:p-6 shadow-2xl;
 
           .modal-title {
-            @apply text-2xl font-bold text-white mb-4;
+            @apply text-2xl max-sm:text-xl font-bold text-white mb-4;
           }
 
           .task-form {
@@ -154,7 +170,7 @@
               @apply flex items-center justify-center gap-4 mt-4;
 
               .add-btn {
-                @apply flex-1 flex items-center justify-center py-2.5 px-5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium  tracking-wider cursor-pointer;
+                @apply flex-1 flex items-center justify-center py-2.5 px-5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium tracking-wider cursor-pointer;
 
                 &:disabled {
                   @apply opacity-50 cursor-not-allowed;
@@ -211,7 +227,7 @@
       @apply fixed inset-0 bg-black/50 backdrop-blur-md flex items-center justify-center z-50;
 
       .modal-wrapper {
-        @apply w-full max-w-3xl px-8;
+        @apply w-full max-w-3xl px-8 max-sm:px-4;
 
         .modal-content {
           @apply flex flex-col items-center justify-center bg-gray-900 border border-gray-700 rounded-2xl p-8 max-md:p-7 shadow-2xl;
@@ -221,7 +237,7 @@
           }
 
           p {
-            @apply text-xl max-md:text-lg font-medium text-gray-400 tracking-wide;
+            @apply text-xl text-center max-md:text-lg font-medium text-gray-400 tracking-wide;
           }
 
           .modal-btns {

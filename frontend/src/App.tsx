@@ -38,8 +38,8 @@ const App = () => {
             <SearchInput />
 
             <button onClick={() => setIsAddTaskModalOpen(true)} className='add-btn'>
-              <PlusIcon className='size-4 mr-2' />
-              Add New Task
+              <PlusIcon />
+              <span>Add New Task</span>
             </button>
           </div>
 

@@ -21,11 +21,9 @@ const TaskList = () => {
     getTasks(page);
   }, [page, search, filter, getTasks]);
 
-  const initialLoading = tasks.length === 0 && isLoading;
-
   return (
     <section className='task-container'>
-      {initialLoading ? (
+      {isLoading ? (
         <div className='loader'>
           <LoaderCircleIcon />
         </div>

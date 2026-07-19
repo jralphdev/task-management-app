@@ -25,7 +25,7 @@ const TaskItem = ({ task }: TaskItemProps) => {
               className={`check-btn ${task.status === 'completed' ? 'checked' : ''}`}
               onClick={() => toggleTaskStatus(task)}
             >
-              {task.status === 'completed' && <CheckIcon className='size-5' />}
+              {task.status === 'completed' && <CheckIcon />}
             </button>
 
             <div className='task-info'>
@@ -43,13 +43,13 @@ const TaskItem = ({ task }: TaskItemProps) => {
               className='hover:text-blue-400 hover:bg-blue-500/10'
               onClick={() => setEditTaskId(task.id)}
             >
-              <Edit2Icon className='size-5' />
+              <Edit2Icon />
             </button>
             <button
               onClick={() => setDeleteTaskId(task.id)}
               className='hover:text-red-400 hover:bg-red-500/10'
             >
-              <Trash2Icon className='size-5' />
+              <Trash2Icon />
             </button>
           </div>
         </div>

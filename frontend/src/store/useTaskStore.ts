@@ -108,31 +108,44 @@ export const useTaskStore = create<TaskStore>((set, get) => ({
   setPage: (page) => set({ page }),
 
   toggleTaskStatus: async (task: Task) => {
-    const { filter, page } = get();
+    const { filter } = get();
 
     const status: TaskStatus = task.status === 'completed' ? 'incomplete' : 'completed';
+
+    const completed = status === 'completed' ? 1 : -1;
+    const incomplete = -completed;
 
     // instant update UI
     set((state) => ({
       tasks: state.tasks
-        .map((existingTask) =>
-          existingTask.id === task.id ? { ...existingTask, status } : existingTask,
-        )
+        .map((item) => (item.id === task.id ? { ...item, status } : item))
         .filter((task) => filter === 'all' || task.status === filter),
+
+      statistics: {
+        ...state.statistics,
+        statuses: {
+          completed: (state.statistics.statuses.completed ?? 0) + completed,
+          incomplete: (state.statistics.statuses.incomplete ?? 0) + incomplete,
+        },
+      },
     }));
 
     try {
       await axiosInstance.put(`/tasks/${task.id}`, { status });
-
-      await get().getTasks(page);
     } catch (error) {
       console.error('Failed to fetch tasks:', error);
 
       // rollback if fails
       set((state) => ({
-        tasks: state.tasks.map((existingTask) =>
-          existingTask.id === task.id ? task : existingTask,
-        ),
+        tasks: state.tasks.map((item) => (item.id === task.id ? task : item)),
+
+        statistics: {
+          ...state.statistics,
+          statuses: {
+            completed: (state.statistics.statuses.completed ?? 0) - completed,
+            incomplete: (state.statistics.statuses.incomplete ?? 0) - incomplete,
+          },
+        },
       }));
     }
   },
